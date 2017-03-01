@@ -1,0 +1,27 @@
+<table class="table table-stripped table-hover table-condensed">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Last modified</td>
+            <td>Accounts count</td>
+            <td>Vouchers count</td>
+            <td>Rows count</td>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach : uploadedFiles">
+        <tr>
+            <td> <a data-bind="text:id, attr: {href:'#/sie/browse/'+id}" /></td>
+            <td> <a data-bind="text:lastModified, attr: {href:'#/sie/browse/'+id}" /></td>
+            <td> <a data-bind="text:accountsCount, attr: {href:'#/sie/browse/'+id}" /></td>
+            <td> <a data-bind="text:vouchersCount, attr: {href:'#/sie/browse/'+id}" /></td>
+            <td> <a data-bind="text:voucherRowsCount, attr: {href:'#/sie/browse/'+id}"/></td>
+        </tr>
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td style="text-align:center" colspan="5"><span id="uploader-button" class="btn btn-primary uploader-button">Upload</span></td>
+        </tr>
+    </tfoot>
+
+</table>

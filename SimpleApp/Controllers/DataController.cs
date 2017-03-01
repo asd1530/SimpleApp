@@ -1,19 +1,28 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Core.Logic;
+using Core.Data;
+using Common.Entity;
 
-namespace SimpleApp.Controllers
+namespace Core.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class DataController : Controller
     {
+        private readonly ISieFileImportManager _sieFileImportManager;
+        private readonly IDataManager _dataManager;
+
+        public DataController(ISieFileImportManager _sieFileImportManager, IDataManager _dataManager)
+        {
+            this._sieFileImportManager = _sieFileImportManager;
+            this._dataManager = _dataManager;
+        }
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IList<SieFileImport> Get()
         {
-            return new string[] { "value1", "value2" };
+            return null;
+
         }
 
         // GET api/values/5
@@ -22,13 +31,6 @@ namespace SimpleApp.Controllers
         {
             return "value";
         }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

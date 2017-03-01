@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-namespace SimpleApp
+using Microsoft.EntityFrameworkCore;
+using Core.Logic;
+namespace Core
 {
     public class Startup
     {
@@ -16,7 +14,7 @@ namespace SimpleApp
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -27,7 +25,20 @@ namespace SimpleApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=SimpleDB;Trusted_Connection=True;";
+            services.AddDbContext<DataAccessContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<DataAccessContext>();
+            var hosts = new string[] { "http://localhost:8080/","http://localhost:8080", "http://localhost:5000" };
+            var methods = new string[] { "GET", "POST", "PUT", "DELETE", "PATCH" };
+            services.AddScoped<ISieFileImportManager, SieFileImportManager>();
+            services.AddScoped<IDataManager, DataManager>();
+
             // Add framework services.
+            services.AddCors(options =>
+                        {
+                        options.AddPolicy("AllowSpecificOrigin",
+                        builder => builder.WithOrigins(hosts).AllowAnyHeader().WithMethods(methods));
+                        });
             services.AddMvc();
         }
 
@@ -36,8 +47,10 @@ namespace SimpleApp
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
+            app.UseCors("AllowSpecificOrigin");
             app.UseMvc();
+            
         }
     }
 }
