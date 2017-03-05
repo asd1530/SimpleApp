@@ -27,12 +27,12 @@ namespace Core.Controllers
         }
 
         // GET api/values
-        [HttpGet]
+        /*[HttpGet]
         public Dictionary<string, List<SieVoucher>> GetGrouped(long importId)
         {
             System.Console.WriteLine("----------------------------" + importId);
             return this._dataManager.ListVouchersByMonth();
-        }
+        }*/
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)

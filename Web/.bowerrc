@@ -1,3 +1,7 @@
 {
-  "directory": "src/bower_modules"
+  "directory": "src/bower_modules",
+  "scripts": {
+    "preinstall": "npm install cldr-data-downloader@0.2.x",
+    "postinstall": "node ./node_modules/cldr-data-downloader/bin/download.js -i src/bower_modules/cldr-data/index.json -o src/bower_modules/cldr-data/"
+  }
 }

@@ -9,16 +9,7 @@
             <td>vouchers</td>
         </tr>
     </thead>
-        <tbody>
-        <tr data-toggle="collapse">
-            <td>Summarize</td>
-            <td>Some</td>
-            <td>Info</td>
-            <td>Here</td>
-        </tr>
-        </tbody>
-
-    <!-- <tbody>
+    <tbody data-bind="foreach:  _.keys(vouchers)">
         <tr data-toggle="collapse" data-bind="attr: { 'data-target': '#details'+$data }">
             <td>Summarize</td>
             <td>Some</td>
@@ -38,5 +29,5 @@
 
             </td>
         </tr>
-    </tbody>-->
+    </tbody>
 </table>
