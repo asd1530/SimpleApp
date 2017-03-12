@@ -6,6 +6,7 @@ var require = {
         "crossroads": "bower_modules/crossroads/dist/crossroads.min",
         "hasher": "bower_modules/hasher/dist/js/hasher.min",
         "jquery": "bower_modules/jquery/dist/jquery",
+        "jqueryui": "bower_modules/jquery-ui/jquery-ui",
         "knockout": "bower_modules/knockout/dist/knockout",
         "knockout-projections": "bower_modules/knockout-projections/dist/knockout-projections",
         "signals": "bower_modules/js-signals/dist/signals.min",
@@ -27,6 +28,7 @@ var require = {
     },
     shim: {
         "bootstrap": { deps: ["jquery"] },
+        "jqueryui":{ deps: ["jquery"] },
         "uploader": {
             deps: ["jquery"],
             exports: "Uploader"
@@ -46,7 +48,9 @@ var require = {
                 "cldr/unresolved",
                 "json!cldr-data/supplemental/likelySubtags.json",
                 "json!cldr-data/main/en/numbers.json",
-                "json!cldr-data/main/en/ca-gregorian.json"
+                "json!cldr-data/main/en/ca-gregorian.json",
+                "json!cldr-data/supplemental/timeData.json",
+                "json!cldr-data/supplemental/weekData.json"
             ], 
             exports: "Globalize"
         },

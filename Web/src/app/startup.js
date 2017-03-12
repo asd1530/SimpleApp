@@ -3,8 +3,20 @@ import 'bootstrap';
 import ko from 'knockout';
 import 'knockout-projections'
 import * as router from './router';
+import Globalize from 'globalize';
 
+const ls = require("json!cldr-data/supplemental/likelySubtags.json");
+const n = require("json!cldr-data/main/en/numbers.json");
+const gc = require("json!cldr-data/main/en/ca-gregorian.json");
 
+const td = require("json!cldr-data/supplemental/timeData.json");
+const wd = require("json!cldr-data/supplemental/weekData.json" );
+Globalize.load(ls);
+Globalize.load(n);
+Globalize.load(gc);
+Globalize.load(td);
+Globalize.load(wd);
+Globalize.locale('en');
 // Components can be packaged as AMD modules, such as the following:
 ko.components.register('nav-bar', { require: 'components/nav-bar/nav-bar' });
 ko.components.register('home-page', { require: 'components/home-page/home' });

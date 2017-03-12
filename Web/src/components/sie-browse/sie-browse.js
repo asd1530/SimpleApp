@@ -1,35 +1,55 @@
 import ko from 'knockout';
 import templateMarkup from 'text!./sie-browse.html';
+import _ from 'lodash';
 import Globalize from 'globalize';
 import nmb from 'globalize/number';
 import date from 'globalize/date';
-
-
+import $ from 'jquery';
+import 'jqueryui';
 
 class SieBrowse {
+    
     constructor(params) {
-        const ls = require("json!cldr-data/supplemental/likelySubtags.json");
-        const n = require("json!cldr-data/main/en/numbers.json");
-        const gc = require("json!cldr-data/main/en/ca-gregorian.json");
-        Globalize.load(ls);
-        Globalize.load(n);
-        Globalize.load(gc);
+        this.dataLoaded = ko.observable(false);
         console.log(params);
         var self = this;
         this.accounts = ko.observableArray();
-        this.vouchers = ko.observableArray();
+        this.periods = null;
+
+        this.vouchers = null;
+        console.log(Globalize.formatNumber(3.1415));
         this.transactions = ko.observableArray();
+        this.formatter = Globalize.dateFormatter({raw: "MMMM"});
+
         this.init(params);
+        $( "#accordion" ).accordion();
+
     }
     init(params) {
         var self = this;
         $.get("http://localhost:5000/api/" + params.id + "/voucher", function (data) {
-            // var numFormatter = globEn.numberFormatter({ maximumFractionDigits:2});
-            var en = Globalize("en");
-
-            console.log(en.formatNumber(3.1415));
-            console.log(en.dateFormatter({ skeleton: "GyMMMd" })( new Date() ));
+            self.vouchers = self.prepareDate(data);
+            self.periods= _.keys(self.vouchers);
+            console.log(self.periods);
+            self.dataLoaded(true);
         });
+    }
+    debug(){
+        console.log(this.vouchers);
+    }
+    prepareDate(data) {
+        var self = this;
+        var gr1 = _.groupBy(data, function (item) {
+            var itemDate = new Date(item.voucherDate);
+            return self.formatter(itemDate);
+        });
+        _.each(_.keys(gr1), function (key) {
+            gr1[key] = _.groupBy(gr1[key], 'series');
+        })
+        var result = gr1;
+
+            console.log(result);
+            return result;
     }
 
     dispose() {
