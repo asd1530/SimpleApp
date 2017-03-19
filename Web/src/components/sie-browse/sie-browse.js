@@ -22,7 +22,7 @@ class SieBrowse {
         this.formatter = Globalize.dateFormatter({raw: "MMMM"});
 
         this.init(params);
-        $( "#accordion" ).accordion();
+        
 
     }
     init(params) {
@@ -32,6 +32,7 @@ class SieBrowse {
             self.periods= _.keys(self.vouchers);
             console.log(self.periods);
             self.dataLoaded(true);
+            $( "#accordion" ).accordion();
         });
     }
     debug(){
